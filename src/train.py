@@ -30,7 +30,7 @@ lr = 0.00001
 
 # We can use 2 types of spectrogram that extracted by using FFT or CQT.
 # Set cqt of stft.
-feature_type = "cqt"
+feature_type = "stft"
 
 # The path for saving model
 # This is used for ModelChecking callback.
@@ -42,6 +42,7 @@ saving_path = "lcnn.h5"
 protocol_tr = "./protocol/train_protocol.csv"
 protocol_dev = "./protocol/dev_protocol.csv"
 protocol_eval = "./protocol/eval_protocol.csv"
+my_csv = "./protocol/"
 
 # Choose access type PA or LA.
 # Replace 'asvspoof_database/ to your database path.
@@ -50,17 +51,19 @@ path_to_database = "asvspoof_database/" + access_type
 path_tr = path_to_database + "/ASVspoof2019_" + access_type + "_train/flac/"
 path_dev = path_to_database + "/ASVspoof2019_" + access_type + "_dev/flac/"
 path_eval = path_to_database + "/ASVspoof2019_" + access_type + "_eval/flac/"
+my_path = ""
 
 if __name__ == "__main__":
 
     df_tr = pd.read_csv(protocol_tr)
     df_dev = pd.read_csv(protocol_dev)
+    my_df = pd.read_csv(my_csv)
 
     if feature_type == "stft":
         print("Extracting train data...")
-        x_train, y_train = calc_stft(df_tr, path_tr)
-        print("Extracting dev data...")
-        x_val, y_val = calc_stft(df_dev, path_dev)
+        x_train, y_train = calc_stft(my_df, my_path)
+        # print("Extracting dev data...")
+        # x_val, y_val = calc_stft(df_dev, path_dev)
 
     elif feature_type == "cqt":
         print("Extracting train data...")
